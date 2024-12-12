@@ -76,3 +76,28 @@ cax = plt.subplot(gs[:, 1])
 cbar = fig.colorbar(contour, cax=cax)
 cbar.set_ticks(np.linspace(0, 0.3, 6))
 plt.show()
+
+from matplotlib.animation import FuncAnimation
+
+fig_anim, ax_anim = plt.subplots()
+
+line, = ax_anim.plot([], [])
+
+# Init
+ax_anim.set_xlim(x[0], x[-1])
+ax_anim.set_ylim(-0.01, 0.4)
+
+ax_anim.set_xlabel("x")
+ax_anim.set_ylabel("u")
+# ax_anim.set_title(f"Wave Animation, $\lambda={lmb}$")
+
+
+def animate(i):
+    line.set_data(x, u_history[500*i, :])
+    return line,
+
+# Create the animation
+anim = FuncAnimation(fig_anim, animate, frames=steps//500, blit=True, repeat=True);
+
+# Save the animation as an MP4 file
+anim.save('soliton.gif', writer='pillow', fps=25)
