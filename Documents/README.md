@@ -1,16 +1,16 @@
 # Project Spectral method: Solitons and the Korteweg-de Vries equation
 
-The Korteweg-de Vries equation is a nonlinear partial differential equation that models the evolution of the height $u(x, t)$ of a fluid in shallow water conditions. You find different versions of the equation in the literature. The "canonical" form is
+The Korteweg-de Vries equation is a **nonlinear partial differential equation** that models the evolution of the height $u(x, t)$ of a fluid in shallow water conditions. You find different versions of the equation in the literature. The "canonical" form is
 
 $$ \frac{\partial u}{\partial t}+6 u \frac{\partial u}{\partial x}+\frac{\partial^{3} u}{\partial x^{3}}=0 $$
 
-Note that this equation is different from the one introduced in the finite differences projects. You can find more information the equation and its history in the paper referenced in the solitons projects of the finite differences part. Independently from the specific form, the equation is famous for admitting so called soliton solutions, that is positive travelling wave solutions decaying at infinity, that therefore behave as solitary travelling wave packets. The shape of the solitons remain unaffected during the evolution due to a delicate balance between dispersion and nonlinearity.
+Independently from the specific form, the equation is famous for admitting so called *soliton solutions*, that is positive travelling wave solutions decaying at infinity, that therefore behave as *solitary travelling wave packets*. The shape of the solitons remain unaffected during the evolution due to a delicate balance between dispersion and nonlinearity.
 
 The above equation admits an analytical solution for a single soliton wave
 
 $$ u(x, t)=\frac{c}{2} \cosh ^{-2}\left[\frac{\sqrt{c}}{2}(x-c t-a)\right] $$
 
-travelling at constant speed $c$, starting from $x=a$ at $t=0$. Figure 2 shows the evolution of two soliton waves (for which we do not have an analytical solution) travelling at different speed on a bounded domain. When they meet there is a phase shift due to nonlinear interactions, but afterwards each continues its trajectory maintaining its original shape and speed.
+travelling at constant speed $c$, starting from $x=a$ at $t=0$. Figure 1 shows the evolution of two soliton waves (for which we do not have an analytical solution) travelling at different speed on a bounded domain. When they meet there is a phase shift due to nonlinear interactions, but afterwards each continues its trajectory maintaining its original shape and speed.
 
 ![Figure 1](https://cdn.mathpix.com/cropped/2024_12_09_0f104bcd00cd2f875752g-04.jpg?height=690&width=886&top_left_y=1157&top_left_x=1070)
 
@@ -18,7 +18,7 @@ travelling at constant speed $c$, starting from $x=a$ at $t=0$. Figure 2 shows t
 
 ## NUMERICAL METHOD
 
-The abovementioned (first) equation on a periodic domain of size L can be simulated with a split-operator or split-step Fourier pseudo-spectral method. Like in the case of the nonlinear Schroedinger equation, the evolution equation is given by the application of two evolution operators, one linear and one nonlinear
+The abovementioned (first) equation on a periodic domain of size L can be simulated with a split-operator or *split-step Fourier pseudo-spectral method*. Like in the case of the nonlinear Schroedinger equation, the evolution equation is given by the application of two evolution operators, one linear and one nonlinear
 
 $$ \frac{\partial u}{\partial t}=\mathscr{L} u+\mathscr{N} u, \quad \text { with } \mathscr{L} u=-\frac{\partial^{3} u}{\partial x^{3}} \text { and } \mathscr{N} u=-6 u \frac{\partial u}{\partial x}=-3 \frac{\partial u^{2}}{\partial x} $$
 
@@ -60,6 +60,6 @@ Then go back to point 1 to repeat the cycle for the next timestep.
 $$ u(x, 0)=\frac{c_{1}}{2} \cosh ^{-2}\left[\frac{\sqrt{c_{1}}}{2}\left(x-a_{1} L\right)\right]+\frac{c_{2}}{2} \cosh ^{-2}\left[\frac{\sqrt{c_{2}}}{2}\left(x-a_{2} L\right)\right] $$
 
 on $x \in[0, L]$, with $L=50,\left(c_{1}=0.75, a_{1}=0.33\right)$ and $\left(c_{2}=0.4, a_{2}=0.65\right)$. In terms of numerical setup, you can discretize the domain in $\mathrm{N}=256$ grid points and
-take a timestep $\Delta t=0.0004$. This initial condition corresponds to the linear combination of the analytical solutions for two separate soliton waves at $t=0$. Plot a few snapshots (or maybe make a video if you have time) to discuss what happens when the fast soliton collides with the slow soliton
+take a timestep $\Delta t=0.0004$. This initial condition corresponds to the linear combination of the analytical solutions for two separate soliton waves at $t=0$. Plot a few snapshots (or maybe make a video if you have time) to discuss what happens when the fast soliton collides with the slow soliton.
 
 2) since the equation is nonlinear, this initial condition does not evolve like the linear combination of the analytical solutions for the two solitons for $t>0$. To visualise this, plot a space-time plot for the the linear combination of the analytical solutions for the two solitons. Discuss the comparison between the two figures. Is there a range when you can approximate the numerical solution with the linear combination of the analytical solutions for the two waves? Can you make a quantitative comparison between numerical and analytical solution limited to this range? Then take an initial condition corresponding to only one of the two solitons, and make a full quantitative comparison between numerical and analytical solution (that now is well defined).
