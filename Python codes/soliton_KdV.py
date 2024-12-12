@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import scipy as sp # not used
-from tqdm import tqdm
+from tqdm import tqdm # For the progress bar
 
 # Parametres
 L = 50  # Length of the domain
@@ -35,27 +35,29 @@ def u_0(x):
 u0 = u_0(x)
 
 def solution(u_0):
+    """ Returns the solution of the KdV equation. """
     u_history = np.zeros((steps,N))
     u_history[0] = u_0
     k = np.fft.fftfreq(N)*N
     k3 = 1j*(k*2*np.pi/L)**3
     print()
-    with tqdm(total=steps) as pbar:
+    with tqdm(total=steps) as pbar: # Progress bar
         for i in range(steps):
-            # Partie linéaire
+            # Linear part
             u_hat = np.fft.fft(u_0)
             u_hat = np.exp(k3 * dt) * u_hat
             u = np.fft.ifft(u_hat).real
             
-            # Partie non-linéaire
+            # Non-linear part
             u_sq_der = np.fft.ifft(1j*k*np.fft.fft(u**2)*2*np.pi/L)
             
+            # Euler forward
             u = u - 3*dt*u_sq_der
             u = u.real
             u_0 = u
             
             u_history[i] = u
-            pbar.update(1)
+            pbar.update(1) # Updates the progress bar
     print()
     return u_history
 
@@ -69,7 +71,7 @@ def analytical_sol(t,c,a):
         u[p] = (np.cosh(np.sqrt(c)*(x[p]-c*t-a*L)/2)**(-2))*c/2
     return u
 
-### Simple plot for 4 frames -----------------------------------
+### Simple plot for 4 frames
 
 fig, ax = plt.subplots(1, 4, figsize=(20, 5))
 
@@ -80,33 +82,31 @@ ax[0].set_ylabel('$u$')
 ax[0].grid()
 
 ax[1].plot(x, u_history[steps//10], color = "blue")
-ax[1].set_title('t = {:.2f}'.format(lap[0]))
+ax[1].set_title('t = {:.2f}'.format(t_max / 10))
 ax[1].set_xlabel('$x$')
 ax[1].grid()
 
 ax[2].plot(x, u_history[2*steps//10], color = "mediumslateblue")
-ax[2].set_title('t = {:.2f}'.format(lap[1]))
+ax[2].set_title('t = {:.2f}'.format(t_max / 10 * 2))
 ax[2].set_xlabel('$x$')
 ax[2].grid()
 
 ax[3].plot(x, u_history[3*steps//10], color = "blueviolet")
-ax[3].set_title('t = {:.2f}'.format(lap[2]))
+ax[3].set_title('t = {:.2f}'.format(t_max / 10 * 3))
 ax[3].set_xlabel('$x$')
 ax[3].grid()
 
 plt.tight_layout()
 plt.savefig('four_frames_soliton.png')
-plt.show()
 
-### -------------------------------------------------------------
+### Creating the color map
 mask_x = np.linspace(0, N, N, dtype=int, endpoint=False)
 t_plot = np.linspace(0.0, t_max, steps, endpoint=False)
 [xx, tt] = np.meshgrid(x[mask_x], t_plot)
 
-fig = plt.figure(figsize=(8, 5))
+fig = plt.figure(figsize=(15, 7))
 gs = gridspec.GridSpec(3, 4, width_ratios=[1.45, 0.1, 0.20, 1.0])
 
-# Contour plot
 ax0 = plt.subplot(gs[:, 0])
 contour = ax0.contourf(
     xx, tt, u_history, np.linspace(-0.005, 0.4, 100), cmap='jet')
@@ -116,12 +116,38 @@ y_ticks = [0, 25, 50, 75, 100, 125, 150, 175, 200]
 ax0.set_yticks(y_ticks)
 ax0.set_xlabel("$x$")
 ax0.set_ylabel("$t$")
-ax0.set_aspect('equal')
 
 # Colorbar
 cax = plt.subplot(gs[:, 1])
 cbar = fig.colorbar(contour, cax=cax)
-#cbar.set_ticks(np.linspace(0, 0.3, 6))
+cbar.set_ticks(np.linspace(0, np.max(u_history), 10))
 
 plt.savefig('cmap_soliton.png')
+
 plt.show()
+
+### Animation
+from matplotlib.animation import FuncAnimation
+
+fig_anim, ax_anim = plt.subplots()
+
+line, = ax_anim.plot([], [])
+
+# Init
+ax_anim.set_xlim(x[0], x[-1])
+ax_anim.set_ylim(-0.01, 0.4)
+
+ax_anim.set_xlabel("x")
+ax_anim.set_ylabel("u")
+ax_anim.set_title(f"KdV solitons")
+
+
+def animate(i):
+    line.set_data(x, u_history[500*i, :])
+    return line,
+
+# Create the animation
+anim = FuncAnimation(fig_anim, animate, frames=steps//500, blit=True, repeat=True);
+
+# Save the animation as an MP4 file
+anim.save('soliton.gif', writer='pillow', fps=25)
