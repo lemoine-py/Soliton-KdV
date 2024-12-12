@@ -19,7 +19,7 @@ dx = L/N
 x = np.linspace(0, L, N)
 
 dt = 0.0004  # Time step
-t_max = 100
+t_max = 200
 steps = int(t_max / dt)
 
 # Initial conditions
@@ -61,59 +61,67 @@ def solution(u_0):
 
 u_history = solution(u0) # Storing the solution array
 
-# Analytical solution to compare the numerical solution to
 def analytical_sol(t,c,a):
+    """ Returns the analytical solution of the KdV equation. """
     x = np.linspace(0,L,N)
     u = np.zeros(N)
     for p in range(N):
         u[p] = (np.cosh(np.sqrt(c)*(x[p]-c*t-a*L)/2)**(-2))*c/2
     return u
 
-### Simple plot for 4 cases ###
+### Simple plot for 4 frames -----------------------------------
+
 fig, ax = plt.subplots(1, 4, figsize=(20, 5))
-ax[0].plot(x, u_history[0])
+
+ax[0].plot(x, u_history[0], color = "darkblue")
 ax[0].set_title('Initial condition')
-ax[0].set_xlabel('x')
-ax[0].set_ylabel('u')
+ax[0].set_xlabel('$x$')
+ax[0].set_ylabel('$u$')
 ax[0].grid()
 
-ax[1].plot(x, u_history[steps//4])
-ax[1].set_title('t = {:.2f}'.format(t_max/4))
-ax[1].set_xlabel('x')
-ax[1].set_ylabel('u')
+ax[1].plot(x, u_history[steps//10], color = "blue")
+ax[1].set_title('t = {:.2f}'.format(lap[0]))
+ax[1].set_xlabel('$x$')
 ax[1].grid()
 
-ax[2].plot(x, u_history[steps//2])
-ax[2].set_title('t = {:.2f}'.format(t_max/2))
-ax[2].set_xlabel('x')
-ax[2].set_ylabel('u')
+ax[2].plot(x, u_history[2*steps//10], color = "mediumslateblue")
+ax[2].set_title('t = {:.2f}'.format(lap[1]))
+ax[2].set_xlabel('$x$')
 ax[2].grid()
 
-ax[3].plot(x, u_history[-1])
-ax[3].set_title('t = {:.2f}'.format(t_max))
-ax[3].set_xlabel('x')
-ax[3].set_ylabel('u')
+ax[3].plot(x, u_history[3*steps//10], color = "blueviolet")
+ax[3].set_title('t = {:.2f}'.format(lap[2]))
+ax[3].set_xlabel('$x$')
 ax[3].grid()
+
+plt.tight_layout()
+plt.savefig('four_frames_soliton.png')
 plt.show()
 
-### ----------------------------------------------------------------
+### -------------------------------------------------------------
 mask_x = np.linspace(0, N, N, dtype=int, endpoint=False)
 t_plot = np.linspace(0.0, t_max, steps, endpoint=False)
 [xx, tt] = np.meshgrid(x[mask_x], t_plot)
 
-fig = plt.figure()
+fig = plt.figure(figsize=(8, 5))
 gs = gridspec.GridSpec(3, 4, width_ratios=[1.45, 0.1, 0.20, 1.0])
 
 # Contour plot
 ax0 = plt.subplot(gs[:, 0])
 contour = ax0.contourf(
     xx, tt, u_history, np.linspace(-0.005, 0.4, 100), cmap='jet')
-ax0.set_title("$N_x = %d, \Delta x = %.4f$" %(256, L/N))
+#ax0.set_title("$N_x = %d, \Delta x = %.4f$" %(256, L/N))
+ax0.set_title("Korteweg-de Vries equation - two solitons")
+y_ticks = [0, 25, 50, 75, 100, 125, 150, 175, 200]
+ax0.set_yticks(y_ticks)
 ax0.set_xlabel("$x$")
 ax0.set_ylabel("$t$")
+ax0.set_aspect('equal')
 
 # Colorbar
 cax = plt.subplot(gs[:, 1])
 cbar = fig.colorbar(contour, cax=cax)
-cbar.set_ticks(np.linspace(0, 0.3, 6))
+#cbar.set_ticks(np.linspace(0, 0.3, 6))
+
+plt.savefig('cmap_soliton.png')
 plt.show()
