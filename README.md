@@ -26,19 +26,19 @@ One can think to create an approximated time stepping scheme by applying first o
 
 Contrary to the case of the nonlinear Schroedinger equation, here only the linear dynamics has analytical solution: in spectral space we have
 
-$$ \frac{\partial u}{\partial t}=\mathscr{L} u=-\frac{\partial^{3} u}{\partial x^{3}} \quad \rightarrow \quad \hat{u}_{k}(t+\Delta t)=e^{i\left(\frac{2 \pi}{L} k\right)^{3} \Delta t} \hat{u}_{k}(t) $$
+$$ \frac{\partial u}{\partial t}=\mathscr{L} u=-\frac{\partial^{3} u}{\partial x^{3}} \quad \rightarrow \quad \hat{u}\_{k}(t+\Delta t)=e^{i\left(\frac{2 \pi}{L} k\right)^{3} \Delta t} \hat{u}_{k}(t) $$
 
 However we can still use the split-step idea. In this case we first perform an update of the linear part in spectral space, and then advance the nonlinear part with a time-stepping scheme of choice. Indicating with $\mathscr{F}$ and $\mathscr{F}^{-1}$ the discrete Fourier transform and its inverse, the update operation from time $t$ to time $t+\Delta t$ is the following:
 
 1) given $u(x, t)$, compute the Fourier transform
 
-    $$ \hat{u}_{k}(t)=\mathscr{F}[u(x, t)] $$
+$$ \hat{u}_{k}(t) = \mathscr{F} \[u(x, t)\] $$
 
-2) advance the linear part by $\Delta t$ computing the partial update in spectral space
+3) advance the linear part by $\Delta t$ computing the partial update in spectral space
 
-    $$ \hat{g}_{k}(t ; \Delta t)=e^{i\left(\frac{2 \pi}{L} k\right)^{3} \Delta t} \hat{u}_{k}(t) $$
+$$ \hat{g}\_{}(t ; \Delta t) = e^{i\left(\frac{2 \pi}{L} k\right)^{3} \Delta t} \hat{u}_{k}(t) $$
 
-3) apply the inverse Fourier transform obtaining the partial update in physical space, compute its square, and compute the spatial derivative of that with the spectral method
+6) apply the inverse Fourier transform obtaining the partial update in physical space, compute its square, and compute the spatial derivative of that with the spectral method
 
 $$ \begin{aligned}
 g(x, t ; \Delta t) & =\mathscr{F}^{-1}\left[\hat{g}_{k}(t ; \Delta t)\right] \\
