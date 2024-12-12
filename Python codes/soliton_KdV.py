@@ -1,9 +1,15 @@
-""" Main code for the Korteveg-de Vries equation with split-step Fourier method. """
+""" 
+___ SOLITON and KORTEWEG-DE VRIES EQUATION ___
+
+Main code to solve numerically the Korteweg-de Vries equation with split-step Fourier method.
+This code produces two plots and one animation file.
+
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import scipy as sp
+import scipy as sp # not used
 from tqdm import tqdm
 
 # Parametres
@@ -13,7 +19,7 @@ dx = L/N
 x = np.linspace(0, L, N)
 
 dt = 0.0004  # Time step
-t_max = 140
+t_max = 100
 steps = int(t_max / dt)
 
 # Initial conditions
@@ -52,8 +58,8 @@ def solution(u_0):
             pbar.update(1)
     print()
     return u_history
- 
-u_history = solution(u0)
+
+u_history = solution(u0) # Storing the solution array
 
 # Analytical solution to compare the numerical solution to
 def analytical_sol(t,c,a):
@@ -101,7 +107,7 @@ gs = gridspec.GridSpec(3, 4, width_ratios=[1.45, 0.1, 0.20, 1.0])
 # Contour plot
 ax0 = plt.subplot(gs[:, 0])
 contour = ax0.contourf(
-    xx, tt, u_history, np.linspace(-0.005, 0.4, 100), cmap='Spectral_r')
+    xx, tt, u_history, np.linspace(-0.005, 0.4, 100), cmap='jet')
 ax0.set_title("$N_x = %d, \Delta x = %.4f$" %(256, L/N))
 ax0.set_xlabel("$x$")
 ax0.set_ylabel("$t$")
