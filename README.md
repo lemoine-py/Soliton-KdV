@@ -48,16 +48,18 @@ g(x, t ; \Delta t) & =\mathscr{F}^{-1}\left[\hat{g}_{k}(t ; \Delta t)\right] \\
 1) apply a time stepping scheme of choice to advance the nonlinear part in physical space and obtain the fully updated solution. For example, with 1st order Euler forward
 
 $$ u(x, t+\Delta t)=g(x, t ; \Delta t)-3 \frac{\partial g^{2}(x, t ; \Delta t)}{\partial x} \Delta t $$
-
+    
 Then go back to point 1 to repeat the cycle for the next timestep.
 
 ## PROJECT DESCRIPTION
 
-1) write a code for the Korteweg-de Vries equation using the split-step method \
-    in periodic boundary conditions, and run it to reproduce Figure 1. \
+1) write a code for the Korteweg-de Vries equation using the split-step method
+    in periodic boundary conditions, <br> and run it to reproduce Figure 1.
     Take initial conditions 
-    $$ u(x, 0)=\frac{c_{1}}{2} \cosh ^{-2}\left[\frac{\sqrt{c_{1}}}{2}\left(x-a_{1} L\right)\right]+\frac{c_{2}}{2} \cosh ^{-2}\left[\frac{\sqrt{c_{2}}}{2}\left(x-a_{2} L\right)\right] $$
-    on $x \in[0, L]$, with $L=50,\left(c_{1}=0.75, a_{1}=0.33\right)$ and $\left(c_{2}=0.4, a_{2}=0.65\right)$. In terms of numerical setup, you can discretize the domain in $\mathrm{N}=256$ grid points and 
-    take a timestep $\Delta t=0.0004$. This initial condition corresponds to the linear combination of the analytical solutions for two separate soliton waves at $t=0$. Plot a few snapshots (or maybe make a video if you have time) to discuss what happens when the fast soliton collides with the slow soliton
+    
+$$ u(x, 0)=\frac{c_{1}}{2} \cosh ^{-2}\left[\frac{\sqrt{c_{1}}}{2}\left(x-a_{1} L\right)\right]+\frac{c_{2}}{2} \cosh ^{-2}\left[\frac{\sqrt{c_{2}}}{2}\left(x-a_{2} L\right)\right] $$
+    
+on $x \in[0, L]$, with $L=50,\left(c_{1}=0.75, a_{1}=0.33\right)$ and $\left(c_{2}=0.4, a_{2}=0.65\right)$. In terms of numerical setup, you can discretize the domain in $\mathrm{N}=256$ grid points and 
+take a timestep $\Delta t=0.0004$. This initial condition corresponds to the linear combination of the analytical solutions for two separate soliton waves at $t=0$. Plot a few snapshots (or maybe make a video if you have time) to discuss what happens when the fast soliton collides with the slow soliton
 
 2) since the equation is nonlinear, this initial condition does not evolve like the linear combination of the analytical solutions for the two solitons for $t>0$. To visualise this, plot a space-time plot for the the linear combination of the analytical solutions for the two solitons. Discuss the comparison between the two figures. Is there a range when you can approximate the numerical solution with the linear combination of the analytical solutions for the two waves? Can you make a quantitative comparison between numerical and analytical solution limited to this range? Then take an initial condition corresponding to only one of the two solitons, and make a full quantitative comparison between numerical and analytical solution (that now is well defined).
