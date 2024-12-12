@@ -48,6 +48,13 @@ def solution(u_0):
 u_history = solution(u0)
 plt.plot(x,u_history[-1])
 
+def analytical_sol(t,c,a):
+    x = np.linspace(0,L,N)
+    u = np.zeros(N)
+    for p in range(N):
+        u[p] = (np.cosh(np.sqrt(c)*(x[p]-c*t-a*L)/2)**(-2))*c/2
+    return u
+
 
 mask_x = np.linspace(0, N, N, dtype=int, endpoint=False)
 t_plot = np.linspace(0.0, t_max, steps, endpoint=False)
