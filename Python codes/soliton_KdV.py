@@ -79,21 +79,25 @@ ax[0].plot(x, u_history[0], color = "darkblue")
 ax[0].set_title('Initial condition')
 ax[0].set_xlabel('$x$')
 ax[0].set_ylabel('$u$')
+ax[0].set_ylim(-0.01, 0.4)
 ax[0].grid()
 
-ax[1].plot(x, u_history[steps//10], color = "blue")
-ax[1].set_title('t = {:.2f}'.format(t_max / 10))
+ax[1].plot(x, u_history[2*steps//20], color = "blue")
+ax[1].set_title('t = {:.2f}'.format(2*t_max / 20))
 ax[1].set_xlabel('$x$')
+ax[1].set_ylim(-0.01, 0.4)
 ax[1].grid()
 
-ax[2].plot(x, u_history[2*steps//10], color = "mediumslateblue")
-ax[2].set_title('t = {:.2f}'.format(t_max / 10 * 2))
+ax[2].plot(x, u_history[3*steps//20], color = "mediumslateblue")
+ax[2].set_title('t = {:.2f}'.format(3*t_max / 20))
 ax[2].set_xlabel('$x$')
+ax[2].set_ylim(-0.01, 0.4)
 ax[2].grid()
 
-ax[3].plot(x, u_history[3*steps//10], color = "blueviolet")
-ax[3].set_title('t = {:.2f}'.format(t_max / 10 * 3))
+ax[3].plot(x, u_history[4*steps//20], color = "blueviolet")
+ax[3].set_title('t = {:.2f}'.format(4*t_max / 20))
 ax[3].set_xlabel('$x$')
+ax[3].set_ylim(-0.01, 0.4)
 ax[3].grid()
 
 plt.tight_layout()
@@ -150,4 +154,4 @@ def animate(i):
 anim = FuncAnimation(fig_anim, animate, frames=steps//500, blit=True, repeat=True);
 
 # Save the animation as an MP4 file
-anim.save('soliton.gif', writer='pillow', fps=25)
+anim.save('soliton.mp4', writer='pillow', fps=25)

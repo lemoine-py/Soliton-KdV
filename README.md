@@ -32,13 +32,13 @@ However we can still use the split-step idea. In this case we first perform an u
 
 1) given $u(x, t)$, compute the Fourier transform
 
-$$ \hat{u}_{k}(t) = \mathscr{F} \[u(x, t)\] $$
+    $$ \hat{u}\_{k}(t) = \mathscr{F} [u(x, t)] $$
 
-3) advance the linear part by $\Delta t$ computing the partial update in spectral space
+2) advance the linear part by $\Delta t$ computing the partial update in spectral space
 
-$$ \hat{g}\_{}(t ; \Delta t) = e^{i\left(\frac{2 \pi}{L} k\right)^{3} \Delta t} \hat{u}_{k}(t) $$
+    $$ \hat{g}\_{}(t ; \Delta t) = e^{i\left(\frac{2 \pi}{L} k\right)^{3} \Delta t} \hat{u}_{k}(t) $$
 
-6) apply the inverse Fourier transform obtaining the partial update in physical space, compute its square, and compute the spatial derivative of that with the spectral method
+3) apply the inverse Fourier transform obtaining the partial update in physical space, compute its square, and compute the spatial derivative of that with the spectral method
 
 $$ \begin{aligned}
 g(x, t ; \Delta t) & =\mathscr{F}^{-1}\left[\hat{g}_{k}(t ; \Delta t)\right] \\
