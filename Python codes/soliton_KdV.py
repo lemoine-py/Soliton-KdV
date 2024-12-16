@@ -63,13 +63,19 @@ def solution(u_0):
 
 u_history = solution(u0) # Storing the solution array
 
-def analytical_sol(t,c,a):
-    """ Returns the analytical solution of the KdV equation. """
-    x = np.linspace(0,L,N)
-    u = np.zeros(N)
-    for p in range(N):
-        u[p] = (np.cosh(np.sqrt(c)*(x[p]-c*t-a*L)/2)**(-2))*c/2
+def analytical_sol(t, c, a):
+    x = np.linspace(0, L, N)
+    u = np.zeros((N,t_max)) # normally steps not t_max but too heavy
+    u_p = np.zeros(N)
+    for i in range(t_max): # normally steps not t_max but too heavy
+        for p in range(N):
+            # Adjust x[i] to be periodic in [0, L]
+            xp = (x[p] - c * t) % L
+            u_p[p] = (np.cosh(np.sqrt(c) * (xp - a * L) / 2) ** -2) * c / 2
+        u[:,i] = u_p[p]
     return u
+
+u_a = analytical_sol(t_max, c1, a1) + analytical_sol(t_max, c2, a2)
 
 ### Simple plot for 4 frames
 
@@ -79,29 +85,29 @@ ax[0].plot(x, u_history[0], color = "darkblue")
 ax[0].set_title('Initial condition')
 ax[0].set_xlabel('$x$')
 ax[0].set_ylabel('$u$')
-ax[0].set_ylim(-0.01, 0.4)
+ax[0].set_ylim(-0.01, 0.8)
 ax[0].grid()
 
 ax[1].plot(x, u_history[2*steps//20], color = "blue")
 ax[1].set_title('t = {:.2f}'.format(2*t_max / 20))
 ax[1].set_xlabel('$x$')
-ax[1].set_ylim(-0.01, 0.4)
+ax[1].set_ylim(-0.01, 0.8)
 ax[1].grid()
 
 ax[2].plot(x, u_history[3*steps//20], color = "mediumslateblue")
 ax[2].set_title('t = {:.2f}'.format(3*t_max / 20))
 ax[2].set_xlabel('$x$')
-ax[2].set_ylim(-0.01, 0.4)
+ax[2].set_ylim(-0.01, 0.8)
 ax[2].grid()
 
 ax[3].plot(x, u_history[4*steps//20], color = "blueviolet")
 ax[3].set_title('t = {:.2f}'.format(4*t_max / 20))
 ax[3].set_xlabel('$x$')
-ax[3].set_ylim(-0.01, 0.4)
+ax[3].set_ylim(-0.01, 0.8)
 ax[3].grid()
 
 plt.tight_layout()
-plt.savefig('four_frames_soliton.png')
+plt.savefig('first_frames_soliton.png')
 
 ### Creating the color map
 mask_x = np.linspace(0, N, N, dtype=int, endpoint=False)
@@ -114,7 +120,6 @@ gs = gridspec.GridSpec(3, 4, width_ratios=[1.45, 0.1, 0.20, 1.0])
 ax0 = plt.subplot(gs[:, 0])
 contour = ax0.contourf(
     xx, tt, u_history, np.linspace(-0.005, 0.4, 100), cmap='jet')
-#ax0.set_title("$N_x = %d, \Delta x = %.4f$" %(256, L/N))
 ax0.set_title("Korteweg-de Vries equation - two solitons")
 y_ticks = [0, 25, 50, 75, 100, 125, 150, 175, 200]
 ax0.set_yticks(y_ticks)
@@ -154,4 +159,4 @@ def animate(i):
 anim = FuncAnimation(fig_anim, animate, frames=steps//500, blit=True, repeat=True);
 
 # Save the animation as an MP4 file
-anim.save('soliton.mp4', writer='pillow', fps=25)
+anim.save('soliton.gif', writer='pillow', fps=25)
