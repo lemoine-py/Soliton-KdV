@@ -26,11 +26,11 @@ c2 = 0.4
 a1 = 0.33
 a2 = 0.65
 
-def analytical_sol(t, c, a):
+def analytical_sol(t, c, a, steps):
     x = np.linspace(0, L, N)
-    u = np.zeros((N,t_max)) # normally steps not t_max but too heavy
+    u = np.zeros((N, steps)) # normally steps not t_max but too heavy
     
-    for i in range(t_max): # normally steps not t_max but too heavy
+    for i in range(steps): # normally steps not t_max but too heavy
         u_p = np.zeros(N)
         for p in range(N):
             # Adjust x[i] to be periodic in [0, L]
@@ -110,6 +110,7 @@ def colormap(t_end, steps, u_array, u_max):
 ### Animation
 
 def gif_creator(u_array, x, steps, u_max):
+    """Create a gif file with the animation of the solution of the KdV equation"""
     fig_anim, ax_anim = plt.subplots()
 
     line, = ax_anim.plot([], [])
@@ -122,13 +123,12 @@ def gif_creator(u_array, x, steps, u_max):
     ax_anim.set_ylabel("u")
     ax_anim.set_title(f"KdV solitons - Sum of linear solutions")
 
-
     def animate():
         line.set_data(x, u_array)
         return line,
 
     # Create the animation
-    anim = FuncAnimation(fig_anim, animate, frames= steps, blit=True, repeat=True);
+    anim = FuncAnimation(fig_anim, animate, frames=steps, blit=True, repeat=True);
 
     # Save the animation as a gif file
     anim.save('soliton.gif', writer='pillow', fps=25)
@@ -136,12 +136,12 @@ def gif_creator(u_array, x, steps, u_max):
 
 ### Calling the functions
 
-u_a = analytical_sol( t_max, c1, a1) + analytical_sol(t_max, c2, a2)
+u_a = analytical_sol( t_max, c1, a1, t_max) + analytical_sol(t_max, c2, a2, t_max)
 
-u_array = u_array(u_a, steps)
+u_sol = u_array(u_a, t_max)
 
-four_frames(u_a,0.8,t_max,steps)
+four_frames(u_a, 0.8, t_max, steps)
 
-colormap(t_max, steps, u_array, 0.8)
+colormap(t_max, t_max, u_sol, 0.8)
 
-gif_creator(u_array, x, steps, 0.8)
+gif_creator(u_sol, x, steps, 0.8)
