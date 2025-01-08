@@ -81,15 +81,27 @@ def analytical_sol(t, c, a):
 u_a = analytical_sol(t_max, c1, a1) + analytical_sol(t_max, c2, a2)
 
 # Error calculation
+
+def analytical_sol1(t, c, a):
+    x = np.linspace(0, L, N)
+    u = np.zeros(N)
+    for p in range(N):
+        # Ajuste x[p] pour être périodique dans [0, L]
+        xp = (x[p] - c * t) % L
+        u[p] = (np.cosh(np.sqrt(c) * (xp - a * L) / 2) ** -2) * c / 2
+    return u
+
 integral = np.zeros(t_max)
 for i in range(t_max):
-    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol(t_linear[i], c1, a1) - analytical_sol(t_linear[i], c2, a2)) ))/t_max
+    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol1(t[i], c1, a1) - analytical_sol1(t[i], c2, a2)) ))/t_max
+
 
 plt.plot(integral)
 plt.grid()
 plt.ylabel("Integral")
 plt.xlabel("Time")
 plt.title("Integral of the difference over time (two solitons)")
+integral = np.zeros(t_max)
 
 ### Simple plot for 4 frames
 
