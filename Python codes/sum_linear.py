@@ -6,9 +6,7 @@ Demonstrates that the solution for the KdV equation is not linear.
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import scipy as sp # not used
 from tqdm import tqdm # For the progress bar
-from matplotlib.animation import FuncAnimation
 
 # Parametres
 L = 50  # Length of the domain
@@ -107,32 +105,6 @@ def colormap(t_end, steps, u_array, u_max):
     plt.savefig('cmap_soliton_linear.png')
     plt.show()
 
-### Animation
-
-def gif_creator(u_array, x, steps, u_max):
-    """Create a gif file with the animation of the solution of the KdV equation"""
-    fig_anim, ax_anim = plt.subplots()
-
-    line, = ax_anim.plot([], [])
-
-    # Init
-    ax_anim.set_xlim(x[0], x[-1])
-    ax_anim.set_ylim(-0.01, u_max)
-
-    ax_anim.set_xlabel("x")
-    ax_anim.set_ylabel("u")
-    ax_anim.set_title(f"KdV solitons - Sum of linear solutions")
-
-    def animate():
-        line.set_data(x, u_array)
-        return line,
-
-    # Create the animation
-    anim = FuncAnimation(fig_anim, animate, frames=steps, blit=True, repeat=True);
-
-    # Save the animation as a gif file
-    anim.save('soliton_linear.gif', writer='pillow', fps=25)
-
 
 ### Calling the functions
 
@@ -144,5 +116,3 @@ u_sol = u_array(u_a, t_max)
 four_frames(u_a, 0.6, t_max, steps)
 
 colormap(t_max, t_max, u_sol, 0.8)
-
-gif_creator(u_sol, x, steps, 0.8)

@@ -9,7 +9,6 @@ This code produces two plots and one animation file.
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import scipy as sp # not used
 from tqdm import tqdm # For the progress bar
 
 # Parametres
@@ -36,6 +35,7 @@ def u_0(x):
 
 u0 = u_0(x)
 
+# Solution of the KdV equation
 def solution(u_0):
     """ Returns the solution of the KdV equation. """
     u_history = np.zeros((steps,N))
@@ -65,6 +65,7 @@ def solution(u_0):
 
 u_history = solution(u0) # Storing the solution array
 
+# Analytical solution
 def analytical_sol(t, c, a):
     """ Returns the analytical solution of the KdV equation. """
     x = np.linspace(0, L, N)
@@ -81,7 +82,6 @@ def analytical_sol(t, c, a):
 u_a = analytical_sol(t_max, c1, a1) + analytical_sol(t_max, c2, a2)
 
 # Error calculation
-
 def analytical_sol1(t, c, a):
     x = np.linspace(0, L, N)
     u = np.zeros(N)
@@ -93,7 +93,7 @@ def analytical_sol1(t, c, a):
 
 integral = np.zeros(t_max)
 for i in range(t_max):
-    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol1(t[i], c1, a1) - analytical_sol1(t[i], c2, a2)) ))/t_max
+    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol1(t_linear[i], c1, a1) - analytical_sol1(t_linear[i], c2, a2)) ))/t_max
 
 
 plt.plot(integral)
