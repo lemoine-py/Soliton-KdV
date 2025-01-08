@@ -77,6 +77,17 @@ def analytical_sol(t, c, a):
 
 u_a = analytical_sol(t_max, c1, a1) + analytical_sol(t_max, c2, a2)
 
+integral = np.zeros(t_max)
+for i in range(t_max):
+    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol(t[i], c1, a1) - analytical_sol(t[i], c2, a2)) ))/t_max
+
+
+plt.plot(integral)
+plt.grid()
+plt.ylabel("Integral")
+plt.xlabel("Time")
+plt.title("Integral of the difference over time (two solitons)")
+
 ### Simple plot for 4 frames
 
 fig, ax = plt.subplots(1, 4, figsize=(20, 5))
