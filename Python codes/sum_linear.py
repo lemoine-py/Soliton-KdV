@@ -50,7 +50,7 @@ def u_array(u, steps):
 def four_frames(u,u_max,t_end,steps):
     fig, ax = plt.subplots(1, 4, figsize=(20, 5))
 
-    ax[0].plot(x, u[:,0], color = "darkblue")
+    ax[0].plot(x, u[:,0], color = "purple")
     ax[0].set_title('Initial condition')
     ax[0].set_xlabel('$x$')
     ax[0].set_ylabel('$u$')
@@ -63,13 +63,13 @@ def four_frames(u,u_max,t_end,steps):
     ax[1].set_ylim(-0.01, u_max)
     ax[1].grid()
 
-    ax[2].plot(x, u[:,3*t_end//20], color = "mediumslateblue")
+    ax[2].plot(x, u[:,3*t_end//20], color = "green")
     ax[2].set_title('t = {:.2f}'.format(3*t_end / 20))
     ax[2].set_xlabel('$x$')
     ax[2].set_ylim(-0.01, u_max)
     ax[2].grid()
 
-    ax[3].plot(x, u[:,4*t_end//20], color = "blueviolet")
+    ax[3].plot(x, u[:,4*t_end//20], color = "limegreen")
     ax[3].set_title('t = {:.2f}'.format(4*t_end / 20))
     ax[3].set_xlabel('$x$')
     ax[3].set_ylim(-0.01, u_max)
@@ -140,7 +140,7 @@ u_a = analytical_sol( t_max, c1, a1, t_max) + analytical_sol(t_max, c2, a2, t_ma
 
 u_sol = u_array(u_a, t_max)
 
-four_frames(u_a, 0.8, t_max, steps)
+four_frames(u_a, 0.6, t_max, steps)
 
 colormap(t_max, t_max, u_sol, 0.8)
 
