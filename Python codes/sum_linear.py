@@ -50,26 +50,26 @@ def u_array(u, steps):
 def four_frames(u,u_max,t_end,steps):
     fig, ax = plt.subplots(1, 4, figsize=(20, 5))
 
-    ax[0].plot(x, u[:,0], color = "purple")
+    ax[0].plot(x, u[:,0], color = "red")
     ax[0].set_title('Initial condition')
     ax[0].set_xlabel('$x$')
     ax[0].set_ylabel('$u$')
     ax[0].set_ylim(-0.01, u_max)
     ax[0].grid()
 
-    ax[1].plot(x, u[:,2*t_end//20], color = "blue")
+    ax[1].plot(x, u[:,2*t_end//20], color = "purple")
     ax[1].set_title('t = {:.2f}'.format(2*t_end / 20))
     ax[1].set_xlabel('$x$')
     ax[1].set_ylim(-0.01, u_max)
     ax[1].grid()
 
-    ax[2].plot(x, u[:,3*t_end//20], color = "green")
+    ax[2].plot(x, u[:,3*t_end//20], color = "blue")
     ax[2].set_title('t = {:.2f}'.format(3*t_end / 20))
     ax[2].set_xlabel('$x$')
     ax[2].set_ylim(-0.01, u_max)
     ax[2].grid()
 
-    ax[3].plot(x, u[:,4*t_end//20], color = "limegreen")
+    ax[3].plot(x, u[:,4*t_end//20], color = "green")
     ax[3].set_title('t = {:.2f}'.format(4*t_end / 20))
     ax[3].set_xlabel('$x$')
     ax[3].set_ylim(-0.01, u_max)
@@ -104,7 +104,7 @@ def colormap(t_end, steps, u_array, u_max):
     cbar = fig.colorbar(contour, cax=cax)
     cbar.set_ticks(np.linspace(0, np.max(u_array), 10))
 
-    plt.savefig('cmap_soliton.png')
+    plt.savefig('cmap_soliton_linear.png')
     plt.show()
 
 ### Animation
@@ -131,11 +131,12 @@ def gif_creator(u_array, x, steps, u_max):
     anim = FuncAnimation(fig_anim, animate, frames=steps, blit=True, repeat=True);
 
     # Save the animation as a gif file
-    anim.save('soliton.gif', writer='pillow', fps=25)
+    anim.save('soliton_linear.gif', writer='pillow', fps=25)
 
 
 ### Calling the functions
 
+# 
 u_a = analytical_sol( t_max, c1, a1, t_max) + analytical_sol(t_max, c2, a2, t_max)
 
 u_sol = u_array(u_a, t_max)

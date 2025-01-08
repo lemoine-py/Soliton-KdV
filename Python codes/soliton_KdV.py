@@ -18,9 +18,11 @@ N = 256  # Number of points
 dx = L/N
 x = np.linspace(0, L, N)
 
+# Time parameters
 dt = 0.0004  # Time step
 t_max = 200
 steps = int(t_max / dt)
+t_linear = np.linspace(0, t_max, t_max)
 
 # Initial conditions
 c1 = 0.75 
@@ -64,6 +66,7 @@ def solution(u_0):
 u_history = solution(u0) # Storing the solution array
 
 def analytical_sol(t, c, a):
+    """ Returns the analytical solution of the KdV equation. """
     x = np.linspace(0, L, N)
     u = np.zeros((N,t_max)) # normally steps not t_max but too heavy
     u_p = np.zeros(N)
@@ -77,10 +80,10 @@ def analytical_sol(t, c, a):
 
 u_a = analytical_sol(t_max, c1, a1) + analytical_sol(t_max, c2, a2)
 
+# Error calculation
 integral = np.zeros(t_max)
 for i in range(t_max):
-    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol(t[i], c1, a1) - analytical_sol(t[i], c2, a2)) ))/t_max
-
+    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol(t_linear[i], c1, a1) - analytical_sol(t_linear[i], c2, a2)) ))/t_max
 
 plt.plot(integral)
 plt.grid()
@@ -92,26 +95,26 @@ plt.title("Integral of the difference over time (two solitons)")
 
 fig, ax = plt.subplots(1, 4, figsize=(20, 5))
 
-ax[0].plot(x, u_history[0], color = "purple")
+ax[0].plot(x, u_history[0], color = "red")
 ax[0].set_title('Initial condition')
 ax[0].set_xlabel('$x$')
 ax[0].set_ylabel('$u$')
 ax[0].set_ylim(-0.01, 0.6)
 ax[0].grid()
 
-ax[1].plot(x, u_history[2*steps//20], color = "blue")
+ax[1].plot(x, u_history[2*steps//20], color = "purple")
 ax[1].set_title('t = {:.2f}'.format(2*t_max / 20))
 ax[1].set_xlabel('$x$')
 ax[1].set_ylim(-0.01, 0.6)
 ax[1].grid()
 
-ax[2].plot(x, u_history[3*steps//20], color = "green")
+ax[2].plot(x, u_history[3*steps//20], color = "blue")
 ax[2].set_title('t = {:.2f}'.format(3*t_max / 20))
 ax[2].set_xlabel('$x$')
 ax[2].set_ylim(-0.01, 0.6)
 ax[2].grid()
 
-ax[3].plot(x, u_history[4*steps//20], color = "limegreen")
+ax[3].plot(x, u_history[4*steps//20], color = "green")
 ax[3].set_title('t = {:.2f}'.format(4*t_max / 20))
 ax[3].set_xlabel('$x$')
 ax[3].set_ylim(-0.01, 0.6)
@@ -170,4 +173,4 @@ def animate(i):
 anim = FuncAnimation(fig_anim, animate, frames=steps//500, blit=True, repeat=True);
 
 # Save the animation as an MP4 file
-anim.save('soliton.gif', writer='pillow', fps=25)
+anim.save('soliton_KdV.gif', writer='pillow', fps=25)
