@@ -1,20 +1,24 @@
 # Project Spectral method: Solitons and the Korteweg-de Vries equation
 
-The Korteweg-de Vries equation is a **nonlinear partial differential equation** that models the evolution of the height $u(x, t)$ of a fluid in shallow water conditions. You find different versions of the equation in the literature. The "canonical" form is
+## Introduction
+
+The Korteweg–de Vries equation is a **second-order nonlinear partial differential equation** that models wave propagation in shallow water. It is particularly notable for its analytical solutions, which describes waves known as "solitons", stable wave packets that maintain their shape while traveling over long distances.
+
+This project focuses on the interaction between two solitons, a phenomenon where their nonlinear nature becomes clear. Specifically, we aim to analyze and compare the numerical solution of two interacting solitons with the superposition of their individual analytical solutions. This comparison provides insights into how nonlinear interactions influence soliton dynamics and helps evaluate the accuracy of numerical methods in capturing such effects.
+
+## The Korteweg-de Vries equation
+
+Its "canonical" form is
 
 $$ \frac{\partial u}{\partial t}+6 u \frac{\partial u}{\partial x}+\frac{\partial^{3} u}{\partial x^{3}}=0 $$
 
-Independently from the specific form, the equation is famous for admitting so called *soliton solutions*, that is positive travelling wave solutions decaying at infinity, that therefore behave as *solitary travelling wave packets*. The shape of the solitons remain unaffected during the evolution due to a delicate balance between dispersion and nonlinearity.
-
-The above equation admits an analytical solution for a single soliton wave
+This equation admits an analytical solution for a single soliton wave
 
 $$ u(x, t)=\frac{c}{2} \cosh ^{-2}\left[\frac{\sqrt{c}}{2}(x-c t-a)\right] $$
 
-travelling at constant speed $c$, starting from $x=a$ at $t=0$. Figure 1 shows the evolution of two soliton waves (for which we do not have an analytical solution) travelling at different speed on a bounded domain. When they meet there is a phase shift due to nonlinear interactions, but afterwards each continues its trajectory maintaining its original shape and speed.
+travelling at constant speed $c$, starting from $x=a$ at $t=0$.
 
-![Figure 1](https://cdn.mathpix.com/cropped/2024_12_09_0f104bcd00cd2f875752g-04.jpg?height=690&width=886&top_left_y=1157&top_left_x=1070)
-
-> Figure 1
+Note that the two-solitons case does not have an analytical solution.
 
 ## NUMERICAL METHOD
 
