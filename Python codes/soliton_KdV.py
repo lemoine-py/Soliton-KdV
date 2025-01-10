@@ -91,75 +91,75 @@ def analytical_sol1(t, c, a):
         u[p] = (np.cosh(np.sqrt(c) * (xp - a * L) / 2) ** -2) * c / 2
     return u
 
-integral = np.zeros(t_max)
-for i in range(t_max):
-    integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol1(t_linear[i], c1, a1) - analytical_sol1(t_linear[i], c2, a2)) ))/t_max
+# integral = np.zeros(t_max)
+# for i in range(t_max):
+#     integral[i]  = np.sum((abs(u_history[2500*i] - analytical_sol1(t_linear[i], c1, a1) - analytical_sol1(t_linear[i], c2, a2)) ))/t_max
 
 
-plt.plot(integral)
-plt.grid()
-plt.ylabel("Integral")
-plt.xlabel("Time")
-plt.title("Integral of the difference over time (two solitons)")
-integral = np.zeros(t_max)
+# plt.plot(integral)
+# plt.grid()
+# plt.ylabel("Integral")
+# plt.xlabel("Time")
+# plt.title("Integral of the difference over time (two solitons)")
+# integral = np.zeros(t_max)
 
-### Simple plot for 4 frames
+# ### Simple plot for 4 frames
 
-fig, ax = plt.subplots(1, 4, figsize=(20, 5))
+# fig, ax = plt.subplots(1, 4, figsize=(20, 5))
 
-ax[0].plot(x, u_history[0], color = "red")
-ax[0].set_title('Initial condition')
-ax[0].set_xlabel('$x$')
-ax[0].set_ylabel('$u$')
-ax[0].set_ylim(-0.01, 0.6)
-ax[0].grid()
+# ax[0].plot(x, u_history[0], color = "red")
+# ax[0].set_title('Initial condition')
+# ax[0].set_xlabel('$x$')
+# ax[0].set_ylabel('$u$')
+# ax[0].set_ylim(-0.01, 0.6)
+# ax[0].grid()
 
-ax[1].plot(x, u_history[2*steps//20], color = "purple")
-ax[1].set_title('t = {:.2f}'.format(2*t_max / 20))
-ax[1].set_xlabel('$x$')
-ax[1].set_ylim(-0.01, 0.6)
-ax[1].grid()
+# ax[1].plot(x, u_history[2*steps//20], color = "purple")
+# ax[1].set_title('t = {:.2f}'.format(2*t_max / 20))
+# ax[1].set_xlabel('$x$')
+# ax[1].set_ylim(-0.01, 0.6)
+# ax[1].grid()
 
-ax[2].plot(x, u_history[3*steps//20], color = "blue")
-ax[2].set_title('t = {:.2f}'.format(3*t_max / 20))
-ax[2].set_xlabel('$x$')
-ax[2].set_ylim(-0.01, 0.6)
-ax[2].grid()
+# ax[2].plot(x, u_history[3*steps//20], color = "blue")
+# ax[2].set_title('t = {:.2f}'.format(3*t_max / 20))
+# ax[2].set_xlabel('$x$')
+# ax[2].set_ylim(-0.01, 0.6)
+# ax[2].grid()
 
-ax[3].plot(x, u_history[4*steps//20], color = "green")
-ax[3].set_title('t = {:.2f}'.format(4*t_max / 20))
-ax[3].set_xlabel('$x$')
-ax[3].set_ylim(-0.01, 0.6)
-ax[3].grid()
+# ax[3].plot(x, u_history[4*steps//20], color = "green")
+# ax[3].set_title('t = {:.2f}'.format(4*t_max / 20))
+# ax[3].set_xlabel('$x$')
+# ax[3].set_ylim(-0.01, 0.6)
+# ax[3].grid()
 
-plt.tight_layout()
-plt.savefig('first_frames_soliton.png')
+# plt.tight_layout()
+# plt.savefig('first_frames_soliton.png')
 
-### Creating the color map
-mask_x = np.linspace(0, N, N, dtype=int, endpoint=False)
-t_plot = np.linspace(0.0, t_max, steps, endpoint=False)
-[xx, tt] = np.meshgrid(x[mask_x], t_plot)
+# ### Creating the color map
+# mask_x = np.linspace(0, N, N, dtype=int, endpoint=False)
+# t_plot = np.linspace(0.0, t_max, steps, endpoint=False)
+# [xx, tt] = np.meshgrid(x[mask_x], t_plot)
 
-fig = plt.figure(figsize=(15, 7))
-gs = gridspec.GridSpec(3, 4, width_ratios=[1.45, 0.1, 0.20, 1.0])
+# fig = plt.figure(figsize=(15, 7))
+# gs = gridspec.GridSpec(3, 4, width_ratios=[1.45, 0.1, 0.20, 1.0])
 
-ax0 = plt.subplot(gs[:, 0])
-contour = ax0.contourf(
-    xx, tt, u_history, np.linspace(-0.005, 0.4, 100), cmap='jet')
-ax0.set_title("Korteweg-de Vries equation - two solitons")
-y_ticks = [0, 25, 50, 75, 100, 125, 150, 175, 200]
-ax0.set_yticks(y_ticks)
-ax0.set_xlabel("$x$")
-ax0.set_ylabel("$t$")
+# ax0 = plt.subplot(gs[:, 0])
+# contour = ax0.contourf(
+#     xx, tt, u_history, np.linspace(-0.005, 0.4, 100), cmap='jet')
+# ax0.set_title("Korteweg-de Vries equation - two solitons")
+# y_ticks = [0, 25, 50, 75, 100, 125, 150, 175, 200]
+# ax0.set_yticks(y_ticks)
+# ax0.set_xlabel("$x$")
+# ax0.set_ylabel("$t$")
 
-# Colorbar
-cax = plt.subplot(gs[:, 1])
-cbar = fig.colorbar(contour, cax=cax)
-cbar.set_ticks(np.linspace(0, np.max(u_history), 10))
+# # Colorbar
+# cax = plt.subplot(gs[:, 1])
+# cbar = fig.colorbar(contour, cax=cax)
+# cbar.set_ticks(np.linspace(0, np.max(u_history), 10))
 
-plt.savefig('cmap_soliton.png')
+# plt.savefig('cmap_soliton.png')
 
-plt.show()
+# plt.show()
 
 ### Animation
 from matplotlib.animation import FuncAnimation
@@ -170,19 +170,19 @@ line, = ax_anim.plot([], [])
 
 # Init
 ax_anim.set_xlim(x[0], x[-1])
-ax_anim.set_ylim(-0.01, 0.4)
+ax_anim.set_ylim(-0.01, 0.6)
 
 ax_anim.set_xlabel("x")
 ax_anim.set_ylabel("u")
-ax_anim.set_title(f"KdV solitons")
+ax_anim.set_title(f"KdV solitons - numerical solution")
 
 
 def animate(i):
-    line.set_data(x, u_history[500*i, :])
+    line.set_data(x, u_history[2500*i, :])
     return line,
 
 # Create the animation
-anim = FuncAnimation(fig_anim, animate, frames=steps//500, blit=True, repeat=True);
+anim = FuncAnimation(fig_anim, animate, frames=steps//2500, blit=True, repeat=True);
 
 # Save the animation as an MP4 file
 anim.save('soliton_KdV.gif', writer='pillow', fps=25)
